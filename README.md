@@ -1,4 +1,1 @@
-This is the reactive version of the notes site that I built for the college hackathon. That site is in pure HTML and CSS, but I am building this one in React because here I can make my site faster, improve it a lot, and also test my React skills. As of now, the site is very basic, but I'll try to improve it as I further progress in my codding journey.
-
-
-Motivation: As a backbencher myself, I don't make notes in lectures, but in exam time, we all need notes, and then we have to ask our friend to send notes. He will arrange notes from some person whose handwriting is good, and then we all study from that same pdf. The same pdf is circulated in all college groups, so I think instead of begging for pdfs in college groups, I'll upload them to my site, from where everyone can access the notes pdf and other study-related content.
+Netlify deployed version
