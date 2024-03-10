@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { getDocs, collection, getFirestore } from "firebase/firestore";
+import { app } from "./firebase";
+import { useContext, useEffect, useState } from "react";
 import { notesData } from "./App";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./About.css";
+
 import {
   faHouse,
   faFlaskVial,
@@ -16,14 +20,37 @@ import {
   faListCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
+const firestore = getFirestore(app);
+const storage = getStorage(app);
+
 function Soon() {
+  const [notes, setNotes] = useState([]);
+  const [urls, setUrls] = useState({});
+
+  const listAllNotes = async () => {
+    const docs = await getDocs(collection(firestore, "Notes"));
+    const urls = {};
+    for (const doc of docs.docs) {
+      const fileUrl = doc.data().fileUrl;
+      const url = await getDownloadURL(ref(storage, fileUrl));
+      urls[fileUrl] = url;
+    }
+    setUrls(urls);
+    setNotes(docs.docs);
+  };
+
+  useEffect(() => {
+    listAllNotes();
+  }, []);
+
   const { setApiState } = useContext(notesData);
   const [style, setStyle] = useState(
     "navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
   );
   const [hamburger, setHamburger] = useState("");
+
   const hamChange = () => {
-    if (hamburger == "") {
+    if (hamburger === "") {
       setHamburger("sidebar-toggled");
       setStyle(
         "navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled"
@@ -33,9 +60,10 @@ function Soon() {
       setStyle("navbar-nav bg-gradient-primary sidebar sidebar-dark accordion");
     }
   };
+
   const handleClick = () => {
     if (
-      style == "navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+      style === "navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
     ) {
       setStyle(
         "navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled"
@@ -44,6 +72,16 @@ function Soon() {
       setStyle("navbar-nav bg-gradient-primary sidebar sidebar-dark accordion");
     }
   };
+
+  const handleDownload = (fileUrl) => {
+    const downloadUrl = urls[fileUrl];
+    if (downloadUrl) {
+      window.open(downloadUrl, "_blank");
+    } else {
+      console.error("Download URL not found for", fileUrl);
+    }
+  };
+
   return (
     <div>
       <div id="wrapper" className={hamburger}>
@@ -67,10 +105,10 @@ function Soon() {
             </Link>
           </li>
           <li className="nav-item active" onClick={() => setApiState("PYQ")}>
-            <Link to="/roles" style={{ textDecoration: "none" }}>
+            <Link to="/upload" style={{ textDecoration: "none" }}>
               <a className="nav-link">
                 <FontAwesomeIcon icon={faAddressCard} />
-                <span>Roles</span>
+                <span>Upload Notes</span>
               </a>
             </Link>
           </li>
@@ -157,7 +195,44 @@ function Soon() {
               </div>
             </form>
           </nav>
-          <h3>Coming Soon</h3>
+          <div className="flex flex-row flex-wrap">
+            {notes.map((note, index) => (
+              <div
+                key={index}
+                className="max-w-sm p-6 ml-3 mb-3 flex-none bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+                style={{ flex: "0 0 calc(33.33% - 1rem)" }}
+              >
+                <a href="#">
+                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    {note.data().title}
+                  </h5>
+                </a>
+                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                  {note.data().subject}
+                </p>
+                <a
+                  target="_blank"
+                  onClick={() => handleDownload(note.data().fileUrl)}
+                  className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  View
+                  <svg
+                    className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                    aria-hidden="true"
+                    viewBox="0 0 14 10"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M1 5h12m0 0L9 1m4 4L9 9"
+                    />
+                  </svg>
+                </a>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

@@ -10,8 +10,10 @@
 
 # production
 /build
+/f
 
 # misc
+.env
 .DS_Store
 .env.local
 .env.development.local

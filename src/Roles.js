@@ -67,10 +67,10 @@ function Roles() {
             </Link>
           </li>
           <li className="nav-item active" onClick={() => setApiState("PYQ")}>
-            <Link to="/roles" style={{ textDecoration: "none" }}>
+            <Link to="/upload" style={{ textDecoration: "none" }}>
               <a className="nav-link">
                 <FontAwesomeIcon icon={faAddressCard} />
-                <span>Roles</span>
+                <span>Upload Notes</span>
               </a>
             </Link>
           </li>
