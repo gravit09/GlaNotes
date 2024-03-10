@@ -112,14 +112,7 @@ function Soon() {
               </a>
             </Link>
           </li>
-          <li className="nav-item active" onClick={() => setApiState("Trend")}>
-            <Link to="/Soon" style={{ textDecoration: "none" }}>
-              <a className="nav-link">
-                <FontAwesomeIcon icon={faChartLine} />
-                <span>Trending</span>
-              </a>
-            </Link>
-          </li>
+
           <li className="nav-item active">
             <Link to="/lab" style={{ textDecoration: "none" }}>
               <a className="nav-link">
@@ -135,7 +128,7 @@ function Soon() {
             <Link to="/Soon" style={{ textDecoration: "none" }}>
               <a className="nav-link">
                 <FontAwesomeIcon icon={faListCheck} />
-                <span>Assignements</span>
+                <span>New Uploads</span>
               </a>
             </Link>
           </li>
