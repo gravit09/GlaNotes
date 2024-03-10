@@ -188,12 +188,11 @@ function Soon() {
               </div>
             </form>
           </nav>
-          <div className="flex flex-row flex-wrap">
+          <div className="flex flex-wrap">
             {notes.map((note, index) => (
               <div
                 key={index}
-                className="max-w-sm p-6 ml-3 mb-3 flex-none bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
-                style={{ flex: "0 0 calc(33.33% - 1rem)" }}
+                className="w-full md:w-1/2 lg:w-1/3 p-6 mb-3 m-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
               >
                 <a href="#">
                   <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
