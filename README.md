@@ -12,6 +12,9 @@ Features:
 
 As I continue my coding journey, I plan to expand and improve this project, incorporating additional features and optimizations to make it a comprehensive platform for college students' study needs.
 
+#Live Project Link
+https://glanotes.netlify.app/
+
 ## Installation
 
 1. Clone the repository: `git clone https://github.com/gravit09/college-notes-react.git`
